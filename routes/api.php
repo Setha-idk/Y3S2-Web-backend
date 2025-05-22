@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\StepController;
 use App\Http\Controllers\Api\TaskController;
+use App\Http\Controllers\API\ComplaintController;
+
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -18,6 +20,7 @@ Route::prefix('steps')->group(function () {
     Route::delete('/{step}', [StepController::class, 'destroy']); // Delete step
 });
 
+Route::apiResource('complaints', ComplaintController::class);
 // Steps endpoints
 // routes/api.php
 Route::apiResource('tasks.steps', StepController::class)->shallow();
