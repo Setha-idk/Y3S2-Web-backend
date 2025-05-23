@@ -6,6 +6,9 @@ use App\Http\Controllers\Api\StepController;
 use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\API\ComplaintController;
 
+Route::post('/tasks/{task}/file', [TaskController::class, 'uploadFile']);
+Route::get('/tasks/{task}/file', [TaskController::class, 'downloadFile']);
+Route::delete('/tasks/{task}/file', [TaskController::class, 'deleteFile']);
 
 Route::get('/user', function (Request $request) {
     return $request->user();
