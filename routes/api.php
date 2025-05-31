@@ -5,11 +5,16 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\StepController;
 use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\API\ComplaintController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\AuthController;
 
+Route::post('/login', [AuthController::class, 'login']);
+Route::apiResource('users', UserController::class);
 Route::post('/tasks/{task}/file', [TaskController::class, 'uploadFile']);
 Route::get('/tasks/{task}/file', [TaskController::class, 'downloadFile']);
 Route::delete('/tasks/{task}/file', [TaskController::class, 'deleteFile']);
-
+Route::put('/users/{id}', [UserController::class, 'update']);
+Route::get('/users/{id}', [UserController::class, 'show']);
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
