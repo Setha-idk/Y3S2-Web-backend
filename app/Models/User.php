@@ -24,8 +24,9 @@ class User extends Authenticatable
         'password',
         'role',        // Add role attribute
         'department',  // Add department attribute
+        "access_level", // Add access level attribute
     ];
-    
+
     /**
      * The attributes that should be hidden for serialization.
      *

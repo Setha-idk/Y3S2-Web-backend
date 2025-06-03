@@ -19,17 +19,17 @@ class UserController extends Controller
         $request->validate([
             'name'     => 'required|string|max:255',
             'email'    => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6',
             'role'     => 'nullable|string|max:255', // Optional role field
             'department' => 'nullable|string|max:255', // Optional department field
+            'access_level' => 'nullable|string|max:255', // Optional access level field
         ]);
 
         $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
-            'password' => Hash::make($request->password),
             'role'     => $request->role, // Optional role field
             'department' => $request->department, // Optional department field
+            'access_level' => $request->access_level, // Optional access level field
         ]);
 
         return response()->json($user, 201);
@@ -51,6 +51,7 @@ class UserController extends Controller
             'password' => 'nullable|string|min:6',
             'role'     => 'sometimes|string|max:255', // Optional role field
             'department' => 'sometimes|string|max:255', // Optional department field
+            'access_level' => 'sometimes|string|max:255', // Optional access level field
         ]);
 
         $user->name  = $request->name ?? $user->name;
@@ -73,6 +74,6 @@ class UserController extends Controller
 
         return response()->json(['message' => 'User deleted successfully.']);
     }
-    
-    
+
+
 }

@@ -15,9 +15,12 @@ Route::get('/tasks/{task}/file', [TaskController::class, 'downloadFile']);
 Route::delete('/tasks/{task}/file', [TaskController::class, 'deleteFile']);
 Route::put('/users/{id}', [UserController::class, 'update']);
 Route::get('/users/{id}', [UserController::class, 'show']);
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+
+Route::middleware(['web'])->prefix('auth')->group(function () {
+    Route::get('/me', function (Request $request) {
+        return $request->user();
+    })->middleware('auth:sanctum');
+});
 
 Route::apiResource('tasks', TaskController::class);
 
