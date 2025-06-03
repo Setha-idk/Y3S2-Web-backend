@@ -13,12 +13,21 @@ class Step extends Model
         'name',
         'description',
         'status',
-        'order',
         'task_id'
     ];
 
     public function task()
     {
         return $this->belongsTo(Task::class);
+    }
+
+    public function assignments()
+    {
+        return $this->hasMany(TaskAssignment::class);
+    }
+
+    public function taskAssignments()
+    {
+        return $this->hasMany(TaskAssignment::class);
     }
 }

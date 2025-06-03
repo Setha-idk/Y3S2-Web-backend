@@ -19,6 +19,7 @@ class UserController extends Controller
         $request->validate([
             'name'     => 'required|string|max:255',
             'email'    => 'required|email|unique:users,email',
+            'password' => 'required|string|min:6', // Password is required
             'role'     => 'nullable|string|max:255', // Optional role field
             'department' => 'nullable|string|max:255', // Optional department field
             'access_level' => 'nullable|string|max:255', // Optional access level field
@@ -27,6 +28,7 @@ class UserController extends Controller
         $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
+            'password' => Hash::make($request->password), // Always hash password
             'role'     => $request->role, // Optional role field
             'department' => $request->department, // Optional department field
             'access_level' => $request->access_level, // Optional access level field

@@ -12,9 +12,6 @@ class Task extends Model
     protected $fillable = [
         'name',
         'description',
-        'status',
-        'due_date',
-        'file_path'
     ];
 
     protected $casts = [
@@ -24,5 +21,10 @@ class Task extends Model
     public function steps()
     {
         return $this->hasMany(Step::class);
+    }
+
+    public function assignments()
+    {
+        return $this->hasMany(TaskAssignment::class);
     }
 }

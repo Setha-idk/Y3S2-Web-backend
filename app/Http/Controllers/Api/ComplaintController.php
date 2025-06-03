@@ -19,14 +19,15 @@ class ComplaintController extends Controller
         $validator = Validator::make($request->all(), [
             'type' => 'required|string|max:255',
             'subject' => 'required|string|max:255',
-            'target_person_id' => 'required|integer',
+            'target_person_id' => 'required|exists:users,id',
+            'user_id' => 'required|exists:users,id',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $complaint = Complaint::create($request->all());
+        $complaint = Complaint::create($validator->validated());
         return response()->json($complaint, 201);
     }
 
@@ -38,16 +39,17 @@ class ComplaintController extends Controller
     public function update(Request $request, Complaint $complaint)
     {
         $validator = Validator::make($request->all(), [
-            'type' => 'required|string|max:255',
-            'subject' => 'required|string|max:255',
-            'target_person_id' => 'required|integer',
+            'type' => 'sometimes|required|string|max:255',
+            'subject' => 'sometimes|required|string|max:255',
+            'target_person_id' => 'sometimes|required|exists:users,id',
+            'user_id' => 'sometimes|required|exists:users,id',
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
 
-        $complaint->update($request->all());
+        $complaint->update($validator->validated());
         return response()->json($complaint, 200);
     }
 

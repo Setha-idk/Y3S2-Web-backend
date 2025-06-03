@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('access_level')->default('user'); // Add this line
             $table->string('role')->default('employee')->nullable(); // Add this line
             $table->string('department')->nullable(); // Add this line
-            $table->string('password')->default('12345678');
+            $table->string('password'); // Remove default, always require hashed password
             $table->rememberToken();
             $table->timestamps();
         });

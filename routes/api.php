@@ -7,8 +7,10 @@ use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\API\ComplaintController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\TaskAssignmentController;
 
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
 Route::apiResource('users', UserController::class);
 Route::post('/tasks/{task}/file', [TaskController::class, 'uploadFile']);
 Route::get('/tasks/{task}/file', [TaskController::class, 'downloadFile']);
@@ -40,3 +42,6 @@ Route::prefix('steps/{step}')->group(function () {
     Route::put('/', [StepController::class, 'update']);
     Route::delete('/', [StepController::class, 'destroy']);
 });
+
+// Task assignment endpoints
+Route::apiResource('task-assignments', TaskAssignmentController::class);

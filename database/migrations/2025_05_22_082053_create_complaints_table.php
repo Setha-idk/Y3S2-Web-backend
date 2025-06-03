@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('complaints', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('target_person_id')->constrained('users')->onDelete('cascade'); // Foreign key to users table
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Foreign key to users table
             $table->string('type'); // Complaint type (e.g., harassment, misconduct)
             $table->string('subject'); // Complaint subject
-            $table->unsignedBigInteger('target_person_id'); // ID of the person being complained about
             $table->timestamps();
         });
     }
