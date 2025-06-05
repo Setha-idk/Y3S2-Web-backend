@@ -24,7 +24,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call([
-            TaskSeeder::class
+            TaskSeeder::class,
+            HistorySeeder::class
         ]);
     }
 }

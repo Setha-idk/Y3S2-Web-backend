@@ -8,6 +8,7 @@ use App\Http\Controllers\API\ComplaintController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\TaskAssignmentController;
+use App\Http\Controllers\Api\HistoryController;
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
@@ -45,3 +46,4 @@ Route::prefix('steps/{step}')->group(function () {
 
 // Task assignment endpoints
 Route::apiResource('task-assignments', TaskAssignmentController::class);
+Route::apiResource('history', HistoryController::class);
