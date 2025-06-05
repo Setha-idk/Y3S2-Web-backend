@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('password'); // Remove default, always require hashed password
             $table->rememberToken();
             $table->timestamps();
+            $table->string('profile_picture')->nullable(); // Add profile picture column
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

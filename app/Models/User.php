@@ -25,6 +25,7 @@ class User extends Authenticatable
         'role',        // Add role attribute
         'department',  // Add department attribute
         "access_level", // Add access level attribute
+        'profile_picture', // Add profile picture to fillable
     ];
 
     /**

@@ -23,7 +23,13 @@ class UserController extends Controller
             'role'     => 'nullable|string|max:255', // Optional role field
             'department' => 'nullable|string|max:255', // Optional department field
             'access_level' => 'nullable|string|max:255', // Optional access level field
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
         ]);
+
+        $profilePicturePath = null;
+        if ($request->hasFile('profile_picture')) {
+            $profilePicturePath = $request->file('profile_picture')->store('profile_pictures', 'public');
+        }
 
         $user = User::create([
             'name'     => $request->name,
@@ -32,6 +38,7 @@ class UserController extends Controller
             'role'     => $request->role, // Optional role field
             'department' => $request->department, // Optional department field
             'access_level' => $request->access_level, // Optional access level field
+            'profile_picture' => $profilePicturePath,
         ]);
 
         return response()->json($user, 201);
@@ -54,8 +61,12 @@ class UserController extends Controller
             'role'     => 'sometimes|string|max:255', // Optional role field
             'department' => 'sometimes|string|max:255', // Optional department field
             'access_level' => 'sometimes|string|max:255', // Optional access level field
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
         ]);
 
+        if ($request->hasFile('profile_picture')) {
+            $user->profile_picture = $request->file('profile_picture')->store('profile_pictures', 'public');
+        }
         $user->name  = $request->name ?? $user->name;
         $user->email = $request->email ?? $user->email;
         $user->role  = $request->role ?? $user->role; // Update role if provided
@@ -63,7 +74,7 @@ class UserController extends Controller
         if ($request->password) {
             $user->password = Hash::make($request->password);
         }
-
+        $user->access_level = $request->access_level ?? $user->access_level;
         $user->save();
 
         return response()->json($user);
