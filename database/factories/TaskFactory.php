@@ -21,7 +21,6 @@ class TaskFactory extends Factory
         return [
             'name' => $this->faker->randomElement(['task1', 'task2']),
             'description' => $this->faker->randomElement(['description1', 'description2']),
-            'due_date' => $this->faker->randomElement(['10/06/2025', '25/01/2025'])
         ];
     }
 }

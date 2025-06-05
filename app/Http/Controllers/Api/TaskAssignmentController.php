@@ -22,6 +22,8 @@ class TaskAssignmentController extends Controller
             'due_date' => 'required|date',
             'status' => 'nullable|in:pending,in_progress,completed',
             'file_path' => 'nullable|string|max:255',
+            'submitted_date' => 'nullable|date',
+            'submitted_file_path' => 'nullable|string|max:255',
         ]);
         $assignment = TaskAssignment::create($validated);
         return response()->json($assignment->load(['task', 'employee', 'assigner']), 201);
@@ -30,15 +32,28 @@ class TaskAssignmentController extends Controller
     public function update(Request $request, TaskAssignment $taskAssignment)
     {
         $validated = $request->validate([
-            'task_id' => 'sometimes|exists:tasks,id',
-            'employee_id' => 'sometimes|exists:users,id',
-            'assigned_by' => 'sometimes|exists:users,id',
-            'due_date' => 'sometimes|date',
             'status' => 'sometimes|in:pending,in_progress,completed',
-            'file_path' => 'nullable|string|max:255',
+            'submitted_date' => 'nullable|date',
         ]);
-        $taskAssignment->update($validated);
-        return response()->json($taskAssignment->load(['task', 'employee', 'assigner']), 200);
+
+        // Handle file upload
+        if ($request->hasFile('submitted_file_path')) {
+            $file = $request->file('submitted_file_path');
+            $path = $file->store('submitted_files', 'public');
+            $taskAssignment->submitted_file_path = $path;
+        }
+
+        // Update other fields
+        $taskAssignment->fill($validated);
+        if ($request->has('status')) {
+            $taskAssignment->status = $request->input('status');
+        }
+        if ($request->has('submitted_date')) {
+            $taskAssignment->submitted_date = $request->input('submitted_date');
+        }
+        $taskAssignment->save();
+
+        return response()->json($taskAssignment->load(['task', 'employee', 'assigner']));
     }
 
     public function destroy(TaskAssignment $taskAssignment)

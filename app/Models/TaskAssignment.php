@@ -13,7 +13,11 @@ class TaskAssignment extends Model
         'task_id',
         'employee_id',
         'assigned_by',
+        'due_date',
+        'status',
         'file_path',
+        'submitted_date',
+        'submitted_file_path',
     ];
 
     public function task()
