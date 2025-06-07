@@ -14,10 +14,6 @@ class Task extends Model
         'description',
     ];
 
-    protected $casts = [
-        'due_date' => 'date'
-    ];
-
     public function steps()
     {
         return $this->hasMany(Step::class);
