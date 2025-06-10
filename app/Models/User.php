@@ -22,10 +22,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role',        // Add role attribute
-        'department',  // Add department attribute
-        "access_level", // Add access level attribute
-        'profile_picture', // Add profile picture to fillable
+        'department_id',
+        'role_id',
+        'access_level',
+        'profile_picture',
     ];
 
     /**
@@ -58,5 +58,15 @@ class User extends Authenticatable
     public function assignedTasks()
     {
         return $this->hasMany(TaskAssignment::class, 'assigned_by');
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 }

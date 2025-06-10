@@ -21,5 +21,26 @@ class TaskSeeder extends Seeder
             ->count(3)
             ->hasSteps(5)
             ->create();
+
+        Task::insert([
+            [
+                'name' => 'Prepare Annual Report',
+                'description' => 'Compile and prepare the annual financial report.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'System Backup',
+                'description' => 'Perform a full backup of all company systems.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'Recruitment Drive',
+                'description' => 'Organize recruitment for new developers.',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
     }
 }

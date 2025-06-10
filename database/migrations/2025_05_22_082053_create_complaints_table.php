@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // For storing complaints against users
         Schema::create('complaints', function (Blueprint $table) {
             $table->id();
             $table->foreignId('target_person_id')->constrained('users')->onDelete('cascade'); // Foreign key to users table

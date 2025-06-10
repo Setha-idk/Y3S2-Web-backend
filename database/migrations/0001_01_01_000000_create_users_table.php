@@ -17,8 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('access_level')->default('user'); // Add this line
-            $table->string('role')->default('employee')->nullable(); // Add this line
-            $table->string('department')->nullable(); // Add this line
+            $table->foreignId("role_id")->constrained("roles")->default('employee')->nullable()->onDelete("cascade"); // Add this line
+            $table->foreignId("department_id")->constrained("departments")->onDelete("cascade"); // Add this line
             $table->string('password'); // Remove default, always require hashed password
             $table->rememberToken();
             $table->timestamps();

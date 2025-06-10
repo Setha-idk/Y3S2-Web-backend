@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
@@ -14,22 +12,49 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Disable foreign key checks to allow truncation
-        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-        DB::table('users')->truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
-        // Create an admin user
-        User::create([
-            'name' => 'Admin',
-            'email' => 'admin@gmail.com',
-            'password' => Hash::make('12345678'),
-            'role' => 'ceo', // or a department role like 'manager' if you prefer
-            'department' => 'management',
-            'access_level' => 'admin',
+        if (DB::getDriverName() === 'mysql') {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+            DB::table('users')->truncate();
+            DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        }
+        // Seed departments and roles first so foreign keys exist
+        $this->call([
+            DepartmentSeeder::class,
+            RoleSeeder::class,
         ]);
 
+        $departments = \App\Models\Department::pluck('id', 'name');
+        $roles = \App\Models\Role::pluck('id', 'name');
+        \App\Models\User::insert([
+            [
+                'name' => 'Admin',
+                'email' => 'admin@gmail.com',
+                'password' => bcrypt('12345678'),
+                'access_level' => 'admin',
+                'role_id' => $roles['Manager'] ?? 1,
+                'department_id' => $departments['Management'] ?? 1,
+                'profile_picture' => null,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+            [
+                'name' => 'IT Staff',
+                'email' => 'it@gmail.com',
+                'password' => bcrypt('12345678'),
+                'access_level' => 'user',
+                'role_id' => $roles['Developer'] ?? 2,
+                'department_id' => $departments['IT'] ?? 2,
+                'profile_picture' => null,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],
+        ]);
+
+        // Call remaining seeders
         $this->call([
             TaskSeeder::class,
+            StepSeeder::class,
+            UserSeeder::class,
             HistorySeeder::class
         ]);
     }

@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //use to store the history of task and step changes
-        schema::create('history', function (Blueprint $table) {
+        // Use to store the history of task and step changes
+        Schema::create('history', function (Blueprint $table) {
             $table->id();
             $table->timestamp('action_time')->useCurrent(); // The time when the action was performed
-            $table->string("user_name");//name of the person who changed the task, e.g., 'John Doe', 'Jane Smith', etc
-            $table->string("email"); // Email of the person who changed the task, e.g., 'john@example.com'
-            $table->string("name"); // Name of the task or step that was changed, e.g., 'task 1', 'task 2', etc
+            $table->string('user_name'); // Name of the person who changed the task
+            $table->string('email'); // Email of the person who changed the task
+            $table->string('name'); // Name of the task or step that was changed
             $table->foreignId('employee_id')->constrained('users')->onDelete('cascade'); // The user who performed the action
             $table->string('action'); // e.g., 'created', 'updated', 'deleted'
             $table->text('description')->nullable(); // Additional details about the action
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('history');
     }
 };

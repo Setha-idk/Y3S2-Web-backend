@@ -19,11 +19,11 @@ class UserController extends Controller
         $request->validate([
             'name'     => 'required|string|max:255',
             'email'    => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6', // Password is required
-            'role'     => 'nullable|string|max:255', // Optional role field
-            'department' => 'nullable|string|max:255', // Optional department field
-            'access_level' => 'nullable|string|max:255', // Optional access level field
-            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
+            'password' => 'required|string|min:8',
+            'role_id'     => 'nullable|exists:roles,id', // Foreign key
+            'department_id' => 'nullable|exists:departments,id', // Foreign key
+            'access_level' => 'nullable|string|max:255',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $profilePicturePath = null;
@@ -34,10 +34,10 @@ class UserController extends Controller
         $user = User::create([
             'name'     => $request->name,
             'email'    => $request->email,
-            'password' => Hash::make($request->password), // Always hash password
-            'role'     => $request->role, // Optional role field
-            'department' => $request->department, // Optional department field
-            'access_level' => $request->access_level, // Optional access level field
+            'password' => Hash::make($request->password),
+            'role_id'     => $request->role_id,
+            'department_id' => $request->department_id,
+            'access_level' => $request->access_level,
             'profile_picture' => $profilePicturePath,
         ]);
 
@@ -57,11 +57,11 @@ class UserController extends Controller
         $request->validate([
             'name'     => 'sometimes|required|string|max:255',
             'email'    => 'sometimes|required|email|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:6',
-            'role'     => 'sometimes|string|max:255', // Optional role field
-            'department' => 'sometimes|string|max:255', // Optional department field
-            'access_level' => 'sometimes|string|max:255', // Optional access level field
-            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate image
+            'password' => 'nullable|string|min:8',
+            'role_id'     => 'sometimes|exists:roles,id',
+            'department_id' => 'sometimes|exists:departments,id',
+            'access_level' => 'sometimes|string|max:255',
+            'profile_picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         if ($request->hasFile('profile_picture')) {
@@ -69,8 +69,8 @@ class UserController extends Controller
         }
         $user->name  = $request->name ?? $user->name;
         $user->email = $request->email ?? $user->email;
-        $user->role  = $request->role ?? $user->role; // Update role if provided
-        $user->department = $request->department ?? $user->department; // Update department if provided
+        $user->role_id  = $request->role_id ?? $user->role_id;
+        $user->department_id = $request->department_id ?? $user->department_id;
         if ($request->password) {
             $user->password = Hash::make($request->password);
         }

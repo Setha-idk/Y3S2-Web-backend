@@ -47,3 +47,5 @@ Route::prefix('steps/{step}')->group(function () {
 // Task assignment endpoints
 Route::apiResource('task-assignments', TaskAssignmentController::class);
 Route::apiResource('history', HistoryController::class);
+Route::apiResource('departments', \App\Http\Controllers\Api\DepartmentController::class);
+Route::apiResource('roles', \App\Http\Controllers\Api\RoleController::class);

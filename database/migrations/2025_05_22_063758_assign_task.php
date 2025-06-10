@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
+        //for assigning tasks to employees
         Schema::create('task_assignments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('task_id')->constrained('tasks')->onDelete('cascade');
+            $table->foreignId('task_id')->constrained('tasks')->onDelete('cascade');// Foreign key to tasks table
             $table->date('due_date')->default(now()->addDays(7)); // Default due date is 7 days from now
             $table->date("submitted_date")->nullable(); // Date when the task was submitted
-            $table->enum('status', ['pending', 'in_progress', 'completed'])->default('pending');
+            $table->enum('status', ['in_progress', 'completed'])->default('in_progress');
             $table->foreignId('employee_id')->constrained('users')->onDelete('cascade'); // The user assigned to the task
             $table->foreignId('assigned_by')->constrained('users')->onDelete('cascade'); // The user who assigned the task
-            $table->timestamps();
+            $table->timestamps();//time of assigning the task
             $table->string('file_path')->nullable(); // Optional file path for task-related documents
             $table->string('submitted_file_path')->nullable(); // Optional file path for submitted task documents
         });

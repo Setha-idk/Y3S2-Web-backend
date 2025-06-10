@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //for storing tasks names and descriptions only
-        //like this is use to store all the task in the organization
-        Schema::create('tasks', function (Blueprint $table) {
-            $table->id()->index();
-            $table->string('name');//task name
-            $table->text('description')->nullable();//task description
+        //This table will store information about different departments in the organization.
+        Schema::create('departments', function (Blueprint $table) {
+            $table->id();
+            $table->string('name'); // name for the department
+            $table->string('description')->nullable(); // optional description for the department
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('departments');
     }
 };
