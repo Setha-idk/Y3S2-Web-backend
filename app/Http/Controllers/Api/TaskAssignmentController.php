@@ -21,10 +21,18 @@ class TaskAssignmentController extends Controller
             'assigned_by' => 'required|exists:users,id',
             'due_date' => 'required|date',
             'status' => 'nullable|in:pending,in_progress,completed',
-            'file_path' => 'nullable|string|max:255',
+            'file_path' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,ppt,pptx,txt,csv,mp4,avi,mov,jpg,jpeg,png,gif|max:20480',
             'submitted_date' => 'nullable|date',
             'submitted_file_path' => 'nullable|string|max:255',
         ]);
+
+        // Handle file upload for file_path
+        if ($request->hasFile('file_path')) {
+            $file = $request->file('file_path');
+            $path = $file->store('assignment_files', 'public');
+            $validated['file_path'] = $path;
+        }
+
         $assignment = TaskAssignment::create($validated);
         return response()->json($assignment->load(['task', 'employee', 'assigner']), 201);
     }

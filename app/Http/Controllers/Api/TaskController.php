@@ -51,4 +51,17 @@ class TaskController extends Controller
         $task->delete();
         return response()->json(null, 204);
     }
+
+    // Download attached file for a task
+    public function downloadFile(Task $task)
+    {
+        if (!$task->file_path) {
+            return response()->json(['message' => 'No file attached to this task.'], 404);
+        }
+        $filePath = storage_path('app/public/' . $task->file_path);
+        if (!file_exists($filePath)) {
+            return response()->json(['message' => 'File not found.'], 404);
+        }
+        return response()->download($filePath);
+    }
 }
