@@ -12,7 +12,6 @@ class Step extends Model
     protected $fillable = [
         'name',
         'description',
-        'status',
         'task_id'
     ];
 

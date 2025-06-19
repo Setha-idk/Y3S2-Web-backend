@@ -12,16 +12,6 @@ class TaskSeeder extends Seeder
      */
     public function run(): void
     {
-        Task::factory()
-            ->count(2)
-            ->hasSteps(3)
-            ->create();
-
-        Task::factory()
-            ->count(3)
-            ->hasSteps(5)
-            ->create();
-
         Task::insert([
             [
                 'name' => 'Prepare Annual Report',

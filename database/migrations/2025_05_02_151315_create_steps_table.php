@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('task_id')->constrained()->onDelete('cascade');
             $table->string('name');//step name
             $table->text('description')->nullable();//step description
-            $table->enum('status', [ 'in_progress', 'completed'])->default('in_progress');
             $table->integer('order')->default(0);
             $table->timestamps();
         });

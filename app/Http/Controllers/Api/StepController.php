@@ -21,7 +21,6 @@ class StepController extends Controller
             'name' => 'required|string|max:255',
             'task_id' => 'required|exists:tasks,id',
             'description' => 'nullable|string',
-            'status' => 'nullable|in:pending,completed',
         ]);
 
         return Step::create($validated);
@@ -31,7 +30,6 @@ class StepController extends Controller
     {
         $validated = $request->validate([
             'name' => 'sometimes|string|max:255',
-            'status' => 'sometimes|in:pending,completed',
             'description' => 'nullable|string',
         ]);
 

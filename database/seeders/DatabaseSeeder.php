@@ -41,7 +41,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'IT Staff',
                 'email' => 'it@gmail.com',
                 'password' => bcrypt('12345678'),
-                'access_level' => 'user',
+                'access_level' => 'manager',
                 'role_id' => $roles['Developer'] ?? 2,
                 'department_id' => $departments['IT'] ?? 2,
                 'profile_picture' => null,
